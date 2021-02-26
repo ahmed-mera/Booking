@@ -1,11 +1,11 @@
 # LIVELLO 1
 Scopo dell'applicazione è gestire la prenotazione/acquisto da remoto di biglietti di una sala cinema.
-La sala ha 150 posti a sedere.
+**La sala ha 150 posti a sedere**.
 Si suppone che il sistema gestisca la prenotazione dei biglietti per un solo spettacolo. A esempio, il sistema consente la prenotazione dei posti per il film "Via Col Vento", in programmazione Sabato 27 febbraio 2021.
 Le prenotazioni sono possibili, fin tanto che rimangono posti a disposizione che non siano già stati prenotati da qualche altri cliente, fino a mezz'ora prima dello spettacolo, ovvero fino alle 19:30. Dopo le 19:30 le prenotazioni saranno chiuse.
 Lo spettacolo inizia alle 20:00. Prima delle 20:00, chi ha prenotato deve presentarsi alla cassa e ritirare il biglietto. Non c'è da gestire il pagamento del biglietto, perché si suppone che chi prenota faccia, contestualmente, anche l'acquisto e il pagamento a distanza.
 
-I 150 posti sono distribuiti su 10 file. Chi accede al sistema di prenotazione deve poter chiedere al sistema stesso di conoscere lo stato di prenotazione di tutti i posti.
+**I 150 posti sono distribuiti su 10 file**. Chi accede al sistema di prenotazione deve poter chiedere al sistema stesso di conoscere lo stato di prenotazione di tutti i posti.
 A esempio, se il cliente chiede POSTI_DISPONIBILI, il sistema gli risponde con lo stato di tutti i posti e il CLIENTE deve vedere a schermo una rappresentazione L/O (L = libero, O = Occupato). A esempio (10 file da 15 posti ciascuna):
 
 
@@ -34,7 +34,7 @@ se non ci sono più posti disponibili, il sistema deve comunicarlo all'utente
 Si consiglia di usare due matrici. Una per tener traccia della disponibilità dei posti. L'altra, gemella e speculare, per tener traccia dei dati di anagrafica dei clienti che abbiano prenotato i posti.
 
 # LIVELLO 2
-Le prenotazioni sono possibili a partire da Lunedì 22 Febbraio alle 9:00.
+Le prenotazioni sono possibili a partire da ***Lunedì 22 Febbraio alle 9:00.***
 L'utente può richiedere la prenotazione di un numero di posti compreso fra 1 e 5. Tutti nell'ambito della stessa operazione di prenotazione/acquisto. A esempio, un cliente deve poter richiedere, con una sola operazione di prenotazione, l'acquisto di 3 biglietti.
-Se ci sono 3 posti disponibili, l'operazione va a buon fine. Se non ci sono 3 posti disponibili, l'intera operazione fallisce e l'utente non avrà neanche un posto.
+Se ci sono 3 posti disponibili, ***l'operazione va a buon fine. Se non ci sono 3 posti disponibili, l'intera operazione fallisce e l'utente non avrà neanche un posto.***
 Se l'utente richiede la prenotazione di un numero di posti > 1, il sistema, qualora ci siano abbastanza posti a disposizione, selezionerà i posti richiesti a caso fra tutti quelli disponibili, senza preoccuparsi che siano adiacenti. Il sistema dovrà rispondere all'utente con l'elenco dei posti (numero di fila, posizione all'interno della fila) prenotati.
