@@ -42,7 +42,7 @@
 
 - ### LIVELLO 2
 
- - Le prenotazioni sono possibili a partire da **`Lunedì 22 Febbraio alle 9:00.`**
-   L'utente può richiedere la prenotazione di un numero di posti compreso fra 1 e 5. Tutti nell'ambito della stessa operazione di prenotazione/acquisto. A esempio, un cliente deve poter richiedere, con una sola operazione di prenotazione, l'acquisto di 3 biglietti.
-   Se ci sono 3 posti disponibili, **`l'operazione va a buon fine. Se non ci sono 3 posti disponibili, l'intera operazione fallisce e l'utente non avrà neanche un posto.`**
-  **`Se l'utente richiede la prenotazione di un numero di posti > 1`**, **`il sistema, qualora ci siano abbastanza posti a disposizione`**, selezionerà i posti richiesti a caso fra tutti quelli disponibili, senza preoccuparsi che siano adiacenti. Il sistema dovrà rispondere all'utente con l'elenco dei posti (numero di fila, posizione all'interno della fila) prenotati.
+  - Le prenotazioni sono possibili a partire da **`Lunedì 22 Febbraio alle 9:00.`**
+    L'utente può richiedere la prenotazione di un numero di posti compreso fra 1 e 5. Tutti nell'ambito della stessa operazione di prenotazione/acquisto. A esempio, un cliente deve poter richiedere, con una sola operazione di prenotazione, l'acquisto di 3 biglietti.
+    Se ci sono 3 posti disponibili, **`l'operazione va a buon fine. Se non ci sono 3 posti disponibili, l'intera operazione fallisce e l'utente non avrà neanche un posto.`**
+   **`Se l'utente richiede la prenotazione di un numero di posti > 1`**, **`il sistema, qualora ci siano abbastanza posti a disposizione`**, selezionerà i posti richiesti a caso fra tutti quelli disponibili, senza preoccuparsi che siano adiacenti. Il sistema dovrà rispondere all'utente con l'elenco dei posti (numero di fila, posizione all'interno della fila) prenotati.
