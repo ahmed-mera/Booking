@@ -10,6 +10,8 @@
 
 package Common;
 
+import Bean.Booking;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -18,6 +20,7 @@ import java.net.Socket;
 
 public class Common {
 
+    private int port = 2020; // port to server
 
 
     /**
@@ -51,6 +54,26 @@ public class Common {
      * @return il resultato senza spazi
      */
     public String cleanSpace(String value){ return value.trim(); }
+
+
+
+
+    /**
+     * helper function to get the port
+     * @return port
+     */
+    public int getPort() {
+        return port;
+    }
+
+
+    /**
+     * helper function to set the port
+     * @param port {@link Integer}
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
 
 
 }

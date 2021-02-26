@@ -10,13 +10,27 @@
 
 package DB;
 
+import Bean.Booking;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings("all")
 public class DB {
-    private static final char[][] BOOKING = new char[10][15]; // matrix of booking
+
+    private static char[][] ROOM = new char[10][15]; // matrix of booking
+    private static final List<Booking> BOOKINGS = new ArrayList<>(); // list of booking
 
 
+    /**
+     *
+     * @param row
+     * @param column
+     * @return
+     */
     public static synchronized boolean book(int row, int column){
          if (! isBooking(row, column)) {
-             BOOKING[row][column] = 'O';
+             ROOM[row][column] = 'O';
              return true;
          }
 
@@ -24,8 +38,31 @@ public class DB {
     }
 
 
-    public static boolean isBooking(int row, int column){
-        return BOOKING[row][column] == 'O';
+
+    public static synchronized boolean isBooking(int row, int column){
+        return ROOM[row][column] == 'O';
     }
+
+
+    public static boolean savaData(Booking booking){
+        return !BOOKINGS.contains(booking) && BOOKINGS.add(booking);
+    }
+
+
+    public static char[][] getROOM() {
+        return ROOM;
+    }
+
+    public static List<Booking> getBOOKINGS() {
+        return BOOKINGS;
+    }
+
+
+    public static void setROOM(char[][] room) {
+         ROOM = room;
+    }
+
+
+
 
 }
