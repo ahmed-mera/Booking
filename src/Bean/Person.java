@@ -10,13 +10,13 @@
 
 package Bean;
 
+
 public class Person {
 
     private String name;
     private String surname;
     private String mobileNumber;
 
-    public Person() { }
 
     public Person(String name, String surname, String mobileNumber) {
         this.name = name;
@@ -57,5 +57,4 @@ public class Person {
                 ", mobileNumber='" + mobileNumber + '\'' +
                 '}';
     }
-
 }

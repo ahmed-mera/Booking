@@ -10,7 +10,7 @@
 
 package Common;
 
-import Bean.Booking;
+import Constants.Constants;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import java.net.Socket;
 public class Common {
 
     private int port = 2020; // port to server
+    private String host = "localhost"; // host to server
 
 
     /**
@@ -67,13 +68,33 @@ public class Common {
     }
 
 
-    /**
-     * helper function to set the port
-     * @param port {@link Integer}
-     */
     public void setPort(int port) {
         this.port = port;
     }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    /**
+     * helper function to get the host
+     * @return host
+     */
+    public String getHost() {
+        return host;
+    }
+
+
+    /**
+     * function to check error
+     * @param input
+     * @return
+     */
+    public boolean isError(String input){
+        return input.equalsIgnoreCase(Constants.INTERNAL_ERROR);
+    }
+
+
 
 
 }

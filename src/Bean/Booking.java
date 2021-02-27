@@ -12,31 +12,13 @@ package Bean;
 
 public class Booking {
     private Person person;
-    private int row;
-    private int column;
+    private Coordinate coordinate;
 
-    public Booking(Person person, int row, int column) {
+
+    public Booking(Person person, Coordinate coordinate) {
         this.person = person;
-        this.row = row;
-        this.column = column;
+        this.coordinate = coordinate;
     }
-
-    public int getRow() {
-        return row;
-    }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
 
     public Person getPerson() {
         return person;
@@ -46,12 +28,19 @@ public class Booking {
         this.person = person;
     }
 
+    public Coordinate getCoordinates() {
+        return coordinate;
+    }
+
+    public void setCoordinates(Coordinate coordinate) {
+        this.coordinate = coordinate;
+    }
+
     @Override
     public String toString() {
         return "Booking{" +
-                "person=" + person.toString() +
-                ", row=" + row +
-                ", column=" + column +
+                "person=" + person +
+                ", coordinates=" + coordinate +
                 '}';
     }
 }

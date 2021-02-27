@@ -13,6 +13,8 @@ package Slave;
 import Bean.Booking;
 import Common.Common;
 import Constants.Constants;
+import DB.DB;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -20,10 +22,12 @@ import java.net.Socket;
 public class Slave implements Runnable{
 
     private final Socket socket;
+    private boolean isRunning;
     private final Common common = new Common();
 
     public Slave(Socket socket) {
         this.socket = socket;
+        this.isRunning = true;
     }
 
 
@@ -40,7 +44,36 @@ public class Slave implements Runnable{
      */
     @Override
     public void run() {
+        this.start();
+    }
 
+
+
+    private void start() {
+        while (this.isRunning){
+            try {
+                switch (this.common.cleanSpace(this.common.readData(this.socket))) {
+                    case "1" -> {
+                        Booking booking = new ObjectMapper().readValue(this.common.readData(this.socket), Booking.class); // booking a seat
+
+                        if (booking != null) {
+                            this.common.sendData(this.socket, DB.book(booking.getCoordinates().getRow(), booking.getCoordinates().getColumn(), booking) ? Constants.BOOKING_DONE : Constants.BOOKING_FAIL);
+                        } else
+                            this.common.sendData(this.socket, Constants.ERROE_MSG);
+                    }
+
+                    case "0" -> this.socket.close();
+                }
+            }catch (IOException error){
+                this.isRunning = false; // stop server
+                System.out.println(Constants.INTERNAL_ERROR + " 1.0 ---> " + error.getMessage());
+                try {
+                    this.common.sendData(this.socket, Constants.INTERNAL_ERROR);
+                } catch (IOException e) {
+                    System.out.println(Constants.INTERNAL_ERROR + " 1.1 ---> " + error.getMessage());
+                }
+            }
+        }
     }
 
 

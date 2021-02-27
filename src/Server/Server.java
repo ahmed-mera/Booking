@@ -1,7 +1,6 @@
 package Server;
 
 
-import Bean.Booking;
 import Common.Common;
 import DB.DB;
 import Slave.Slave;
@@ -25,6 +24,8 @@ public class Server {
 
     private Server() throws IOException {
         this.serverSocket = new ServerSocket(this.common.getPort());
+        this.isAlive = true;
+        this.populate();
     }
 
 
@@ -32,11 +33,12 @@ public class Server {
         while (this.isAlive) {
             Socket socket = this.serverSocket.accept();
             System.out.println("New Connection " + socket.toString());
-
             Thread thread = new Thread(new Slave(socket));
             this.listOfThread.add(thread);
             System.out.println("list of threads ==> " + Arrays.toString(listOfThread.toArray()));
             thread.start();
+            System.out.println("list of Bookings ==> " + Arrays.toString(DB.getBOOKINGS().toArray()));
+            this.isAlive = this.common.isError("no error");
         }
     }
 
@@ -51,12 +53,14 @@ public class Server {
     }
 
 
-
+    /**
+     * clean room
+     */
     private void populate(){
         char[][] room = new char[10][15];
 
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 15; j++)
+        for (int i = 0; i < DB.getROOM().length; i++)
+            for (int j = 0; j < DB.getROOM()[i].length; j++)
                 room[i][j] = 'L';
 
         DB.setROOM(room);
