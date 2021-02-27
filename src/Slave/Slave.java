@@ -61,7 +61,10 @@ public class Slave implements Runnable{
                             this.common.sendData(this.socket, DB.book(booking) ? Constants.BOOKING_DONE : Constants.BOOKING_FAIL);
                         } else
                             this.common.sendData(this.socket, Constants.ERROE_MSG);
+
                     }
+
+                    case "2" -> this.common.sendData(this.socket, DB.getSeats());
 
                     case "3" -> {
                        BookingMoreSeats bookingMoreSeats = new ObjectMapper().readValue(this.common.readData(this.socket), BookingMoreSeats.class);// booking more seats
@@ -71,7 +74,12 @@ public class Slave implements Runnable{
                             this.common.sendData(this.socket, Constants.ERROE_MSG);
                     }
 
+
+                    case "4" -> this.common.sendData(this.socket, "/n/t" + Constants.SEATS_FREE + DB.getFreeSeats() + "/t" + Constants.SEATS_BUSY + (DB.getSEATS() - DB.getFreeSeats()));
+
                     case "0" -> this.socket.close();
+
+                    default -> { }
                 }
             }catch (IOException error){
                 this.isRunning = false; // stop server

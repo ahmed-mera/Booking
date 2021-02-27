@@ -30,6 +30,8 @@ public class Server {
 
 
     public void start() throws IOException {
+        System.out.println("Server is running on port --> " + this.common.getPort());
+
         while (this.isAlive) {
             Socket socket = this.serverSocket.accept();
             System.out.println("New Connection " + socket.toString());
@@ -38,7 +40,7 @@ public class Server {
             System.out.println("list of threads ==> " + Arrays.toString(listOfThread.toArray()));
             thread.start();
             System.out.println("list of Bookings ==> " + Arrays.toString(DB.getBOOKINGS().toArray()));
-            this.isAlive = this.common.isError("no error");
+            this.isAlive = !this.common.isError("no error");
         }
     }
 
@@ -53,19 +55,13 @@ public class Server {
     }
 
 
+
     /**
      * clean room
      */
     private void populate(){
-        char[][] room = new char[10][15];
-
-        for (int i = 0; i < DB.getROOM().length; i++)
-            for (int j = 0; j < DB.getROOM()[i].length; j++)
-                room[i][j] = 'L';
-
-        DB.setROOM(room);
+        for (int i = 0; i < DB.ROOM.length; i++)
+            Arrays.fill(DB.ROOM[i], 'L');
     }
-
-
 
 }

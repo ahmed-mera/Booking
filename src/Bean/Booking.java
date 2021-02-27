@@ -10,10 +10,18 @@
 
 package Bean;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
 public class Booking {
+
     private Person person;
     private Coordinate coordinate;
 
+
+    public Booking() {
+        super();
+    }
 
     public Booking(Person person, Coordinate coordinate) {
         this.person = person;

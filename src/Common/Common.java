@@ -11,12 +11,14 @@
 package Common;
 
 import Constants.Constants;
+import DB.DB;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class Common {
 
@@ -54,7 +56,7 @@ public class Common {
      * @param value type {@link String}
      * @return il resultato senza spazi
      */
-    public String cleanSpace(String value){ return value.trim(); }
+    public String cleanSpace(String value){ return value == null ? null :  value.trim(); }
 
 
 
@@ -93,8 +95,5 @@ public class Common {
     public boolean isError(String input){
         return input.equalsIgnoreCase(Constants.INTERNAL_ERROR);
     }
-
-
-
 
 }

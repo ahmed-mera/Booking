@@ -11,12 +11,17 @@
 package Bean;
 
 
-public class Person {
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+
+public class Person {
     private String name;
     private String surname;
     private String mobileNumber;
 
+    public Person() {
+        super();
+    }
 
     public Person(String name, String surname, String mobileNumber) {
         this.name = name;

@@ -35,43 +35,49 @@ public class Client {
     public void start() {
         while (this.isRunning){
             try {
-                System.out.println(Constants.MENU);
+                System.out.print(Constants.MENU);
                 String input = this.readData();
 
 
                 switch (this.common.cleanSpace(input)) {
                     case "1" -> {
+                        this.showSeats();
                         this.common.sendData(this.socket, input);
-                        DB.showSeats();
                         this.common.sendData(this.socket, new ObjectMapper().writeValueAsString(this.book())); // booking a seat
                         String result = this.common.readData(this.socket);
-                        System.out.println(result);
+                        System.out.println("\n" + result);
                         this.isRunning = !this.common.isError(result);
 
                     }
 
                     case "2" -> {
                         System.out.println("\nO --> Busy \t L --> Free");
-                        DB.showSeats();
+                        this.showSeats();
                     }
 
                     case "3" -> {
-                        this.common.sendData(this.socket, input);
-                        DB.showSeats();
+                        this.showSeats();
+
                         BookingMoreSeats bookingMoreSeats = this.bookMoreSeat();
 
                         if (bookingMoreSeats != null){
+                            this.common.sendData(this.socket, input);
                             this.common.sendData(this.socket, new ObjectMapper().writeValueAsString(bookingMoreSeats)); // booking a seat
                             String result = this.common.readData(this.socket);
                             System.out.println(result);
                             this.isRunning = !this.common.isError(result);
                         }else
-                            System.out.println(Constants.BOOKING_FAIL + " seats < 1 ");
+                            System.out.println(Constants.BOOKING_FAIL + " seats must be > 1 ");
 
                     }
 
+                    case "4" -> {
+                        this.common.sendData(this.socket, input);
+                        System.out.println(this.common.readData(this.socket).replace("/n", "\n").replace("/t", "\t"));
+                    }
+
                     case "0" -> {
-                        this.common.sendData(this.socket, this.common.cleanSpace(input));
+                        this.common.sendData(this.socket, input);
                         System.out.println("Goodbye, see you later :)");
                         this.isRunning = false;
                         this.socket.close();
@@ -79,10 +85,12 @@ public class Client {
 
                     default -> System.out.println(Constants.ERROE_MSG);
                 }
+
             }catch (IOException error){
                 System.out.println("qualcosa è andata storo --> " + error.getMessage());
             }
 
+            System.out.println("\n\n");
         }
     }
 
@@ -100,7 +108,7 @@ public class Client {
         System.out.print(Constants.COLUMN);
         int column = Integer.parseInt(this.common.cleanSpace(this.readData()));
 
-        return new Booking(this.getDataOfUser(), new Coordinate(row, column));
+        return new Booking(this.getDataOfUser(), new Coordinate(row - 1, column - 1));
     }
 
 
@@ -112,7 +120,7 @@ public class Client {
         System.out.print(Constants.MORE_SEATS);
         int seats = Integer.parseInt(this.common.cleanSpace(this.readData()));
 
-        if (seats <= DB.getFreeSeats() && seats > 1) {
+        if (seats <= DB.FREE_SEATS && seats > 1) {
             ArrayList<Coordinate> coordinates = new ArrayList<>();
             for (int i = 0; i < seats; i++) {
                 System.out.print(Constants.ROW);
@@ -121,10 +129,8 @@ public class Client {
                 System.out.print(Constants.COLUMN);
                 int column = Integer.parseInt(this.common.cleanSpace(this.readData()));
 
-                coordinates.add(new Coordinate(row, column));
+                coordinates.add(new Coordinate(row - 1, column - 1));
             }
-
-            DB.setFreeSeats(DB.getFreeSeats() - seats);
 
             return new BookingMoreSeats(this.getDataOfUser(), coordinates);
         }
@@ -161,5 +167,10 @@ public class Client {
 
 
 
+    private void showSeats() throws IOException {
+        this.common.sendData(this.socket, "2");
+        System.out.println(this.common.readData(this.socket)
+                .replace("/n", "\n").replace("/t", "\t"));
+    }
 
 }

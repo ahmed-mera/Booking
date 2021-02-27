@@ -12,6 +12,7 @@ package DB;
 
 import Bean.Booking;
 import Bean.BookingMoreSeats;
+import Bean.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,12 @@ import java.util.List;
 @SuppressWarnings("all")
 public class DB {
 
-    private static char[][] ROOM = new char[10][15]; // matrix of booking
-    private static final List<Booking> BOOKINGS = new ArrayList<>(); // list of booking
-    private static final List<BookingMoreSeats> BOOKINGS_MORE = new ArrayList<>(); // list of booking More seats
-    private static int FREE_SEATS = ROOM[0].length;
+
+    public static int SEATS = 15;
+    public static char[][] ROOM = new char[10][SEATS]; // matrix of booking
+    public static final List<Booking> BOOKINGS = new ArrayList<>(); // list of booking
+    public static final List<BookingMoreSeats> BOOKINGS_MORE = new ArrayList<>(); // list of booking More seats
+    public static int FREE_SEATS = SEATS;
 
 
     /**
@@ -43,14 +46,15 @@ public class DB {
 
 
     public static synchronized boolean book(BookingMoreSeats bookingMoreSeats){
-        bookingMoreSeats.getCoordinates().forEach(b -> {
-            if (!isBooking(b.getRow(), b.getColumn())) {
-                ROOM[b.getRow()][b.getColumn()] = 'O';
+        for (Coordinate coordinates : bookingMoreSeats.getCoordinates())
+            if (!isBooking(coordinates.getRow(), coordinates.getColumn())) {
+                ROOM[coordinates.getRow()][coordinates.getColumn()] = 'O';
+                FREE_SEATS--;
             }
-        });
+            else
+                return false;
 
         return savaData(bookingMoreSeats);
-
     }
 
     /**
@@ -128,35 +132,43 @@ public class DB {
      * function to show the room
      *
      *       1 2 3 4  5 6 7 8 9 10 11 12 13 14 15
-     *   01) L L L O O L L L L  L  L  O   O  O  O
-     *   02) L L L O O L L L L  L  L  O   L  L  L
-     *   03) L L L O O L L L L  L  L  O   O  L  O
-     *   04) L L L O O L L L L  L  L  O   O  O  O
-     *   05) L L L O O L L L L  L  L  O   L  O  O
-     *   06) L L L O O L L L L  L  L  O   O  O  O
-     *   07) L L L O O L L L L  L  L  O   O  O  O
-     *   08) L L L O O L L L L  L  L  O   O  L  O
-     *   09) L L L O O L L L L  L  L  O   O  O  O
+     *    1) L L L O O L L L L  L  L  O   O  O  O
+     *    2) L L L O O L L L L  L  L  O   L  L  L
+     *    3) L L L O O L L L L  L  L  O   O  L  O
+     *    4) L L L O O L L L L  L  L  O   O  O  O
+     *    5) L L L O O L L L L  L  L  O   L  O  O
+     *    6) L L L O O L L L L  L  L  O   O  O  O
+     *    7) L L L O O L L L L  L  L  O   O  O  O
+     *    8) L L L O O L L L L  L  L  O   O  L  O
+     *    9) L L L O O L L L L  L  L  O   O  O  O
      *   10) L L L O O L L O O  L  L  O   O  O  O
      */
-    public static void showSeats(){
 
-        System.out.print("\n\n   \t"); // to print the  first column
-        for (int i = 0; i < ROOM[0].length; i++)
-            System.out.print(i + 1 + "\t");
+    public synchronized static String getSeats(){
+        StringBuilder s = new StringBuilder();
 
+        s.append("/n/n   /t"); // to print the  first column
+        for (int i = 0; i < SEATS; i++)
+            s.append(i + 1 + "/t");
+
+
+        s.append("/n");
 
         for (int i = 0; i < ROOM.length; i++) {
-            System.out.print(i < 9 ? "0" + i + 1 + ")\t" : i + 1 + ")\t");
-            for (int j = 0; j < ROOM[i].length; j++) {
-                System.out.print(ROOM[i][j] + "\t");
+            s.append(i < 9 ? " " + (i + 1) + ")/t" : (i + 1) + ")/t");
+            for (int j = 0; j < SEATS; j++) {
+                s.append(ROOM[i][j] + "/t");
             }
-            System.out.println();
+            s.append("/n");
         }
 
-        System.out.println("\n");
+        s.append("/n");
+
+        return s.toString();
     }
 
 
-
+    public static int getSEATS() {
+        return SEATS;
+    }
 }

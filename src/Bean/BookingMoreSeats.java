@@ -16,6 +16,10 @@ public class BookingMoreSeats {
     private Person person;
     private ArrayList<Coordinate> coordinates;
 
+    public BookingMoreSeats() {
+        super();
+    }
+
     public BookingMoreSeats(Person person, ArrayList<Coordinate> coordinateArrayList) {
         this.person = person;
         this.coordinates = coordinateArrayList;
