@@ -1,3 +1,13 @@
+/*
+ *  Copyright (c) 2021
+ *  Version: AM FREE 1.0.0
+ *
+ *  Copyright: Ahmed Mera
+ *  https://mera.ddns.net
+ *
+ *  Contact: meraahmedibrahim@itis-molinari.eu
+ */
+
 package Client;
 
 import Bean.Booking;
@@ -9,16 +19,13 @@ import Constants.Constants;
 import DB.DB;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("all")
 public class Client {
 
     private final Common common = new Common();

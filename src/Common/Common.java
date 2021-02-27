@@ -20,6 +20,7 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.Date;
 
+@SuppressWarnings("all")
 public class Common {
 
     private int port = 2020; // port to server
