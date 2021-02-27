@@ -11,14 +11,14 @@
 package Common;
 
 import Constants.Constants;
-import DB.DB;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Common {
 
@@ -96,4 +96,37 @@ public class Common {
         return input.equalsIgnoreCase(Constants.INTERNAL_ERROR);
     }
 
+
+    /**
+     * function to check time
+     * @return
+     */
+    public boolean checkTime(int day, int hour, int min, int sec){
+        Calendar calendar = Calendar.getInstance();
+        Calendar currentCalendar = Calendar.getInstance();
+        calendar.set(2021, Calendar.FEBRUARY, day, hour, min, sec);
+        currentCalendar.setTime(new Date());
+
+       return currentCalendar.compareTo(calendar) >= 1 ||
+               (currentCalendar.compareTo(calendar) == 0 &&
+               currentCalendar.get(Calendar.HOUR_OF_DAY) >= calendar.get(Calendar.HOUR_OF_DAY) &&
+               currentCalendar.get(Calendar.MINUTE) >= calendar.get(Calendar.MINUTE));
+    }
+
+
+
+//    /**
+//     * function to check time II
+//     * @return
+//     */
+//    public boolean checkTimeII(){
+//        Calendar calendar = Calendar.getInstance();
+//        Calendar currentCalendar = Calendar.getInstance();
+//        calendar.set(2021, Calendar.FEBRUARY, 22, 9, 0, 0);
+//        currentCalendar.setTime(new Date());
+//
+//        return currentCalendar.compareTo(calendar) >= 0 &&
+//                calendar.get(Calendar.HOUR_OF_DAY)  <= currentCalendar.get(Calendar.HOUR_OF_DAY) &&
+//                calendar.get(Calendar.MINUTE) <= currentCalendar.get(Calendar.MINUTE);
+//    }
 }

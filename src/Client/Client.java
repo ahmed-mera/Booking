@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Client {
 
@@ -41,33 +44,42 @@ public class Client {
 
                 switch (this.common.cleanSpace(input)) {
                     case "1" -> {
-                        this.showSeats();
-                        this.common.sendData(this.socket, input);
-                        this.common.sendData(this.socket, new ObjectMapper().writeValueAsString(this.book())); // booking a seat
-                        String result = this.common.readData(this.socket);
-                        System.out.println("\n" + result);
-                        this.isRunning = !this.common.isError(result);
+                        if(!this.common.checkTime(27, 19, 30, 0)){
+                            this.showSeats();
+                            this.common.sendData(this.socket, input);
+                            this.common.sendData(this.socket, new ObjectMapper().writeValueAsString(this.book())); // booking a seat
+                            String result = this.common.readData(this.socket);
+                            System.out.println("\n" + result);
+                            this.isRunning = !this.common.isError(result);
+                        }else{
+                            System.out.println("tempo scaduto per la prenotazione");
+                        }
 
                     }
 
                     case "2" -> {
-                        System.out.println("\nO --> Busy \t L --> Free");
+                        System.out.println("\n\t\tO --> Busy \t L --> Free");
                         this.showSeats();
                     }
 
                     case "3" -> {
-                        this.showSeats();
 
-                        BookingMoreSeats bookingMoreSeats = this.bookMoreSeat();
+                        if (this.common.checkTime(22, 9, 0, 0)) {
+                            this.showSeats();
 
-                        if (bookingMoreSeats != null){
-                            this.common.sendData(this.socket, input);
-                            this.common.sendData(this.socket, new ObjectMapper().writeValueAsString(bookingMoreSeats)); // booking a seat
-                            String result = this.common.readData(this.socket);
-                            System.out.println(result);
-                            this.isRunning = !this.common.isError(result);
-                        }else
-                            System.out.println(Constants.BOOKING_FAIL + " seats must be > 1 ");
+                            BookingMoreSeats bookingMoreSeats = this.bookMoreSeat();
+
+                            if (bookingMoreSeats != null) {
+                                this.common.sendData(this.socket, input);
+                                this.common.sendData(this.socket, new ObjectMapper().writeValueAsString(bookingMoreSeats)); // booking a seat
+                                String result = this.common.readData(this.socket);
+                                System.out.println(result);
+                                this.isRunning = !this.common.isError(result);
+                            } else
+                                System.out.println(Constants.BOOKING_FAIL + " Oppure seats must be  (5 > seats > 1) ");
+                        }else {
+                            System.out.println("non puoi prenotare, l'aspettacelo inizia Lunedì 22 Febbraio alle 9:00 ");
+                        }
 
                     }
 
@@ -120,7 +132,7 @@ public class Client {
         System.out.print(Constants.MORE_SEATS);
         int seats = Integer.parseInt(this.common.cleanSpace(this.readData()));
 
-        if (seats <= DB.FREE_SEATS && seats > 1) {
+        if (seats <= DB.FREE_SEATS && seats > 1 && seats <= 5) {
             ArrayList<Coordinate> coordinates = new ArrayList<>();
             for (int i = 0; i < seats; i++) {
                 System.out.print(Constants.ROW);
@@ -173,4 +185,11 @@ public class Client {
                 .replace("/n", "\n").replace("/t", "\t"));
     }
 
+
+    public void checkTime(Runnable command){
+        Executors
+                .newScheduledThreadPool(1)
+                    .scheduleAtFixedRate(command, 0, 1, TimeUnit.SECONDS);
+
+    }
 }
