@@ -186,10 +186,10 @@ public class Client {
     }
 
 
-    public void checkTime(Runnable command){
-        Executors
-                .newScheduledThreadPool(1)
-                    .scheduleAtFixedRate(command, 0, 1, TimeUnit.SECONDS);
-
-    }
+//    public void checkTime(Runnable command){
+//        Executors
+//                .newScheduledThreadPool(1)
+//                    .scheduleAtFixedRate(command, 0, 1, TimeUnit.SECONDS);
+//
+//    }
 }
