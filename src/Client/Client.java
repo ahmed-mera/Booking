@@ -56,6 +56,7 @@ public class Client {
                     }
 
                     case "3" -> {
+                        this.common.sendData(this.socket, input);
                         DB.showSeats();
                         BookingMoreSeats bookingMoreSeats = this.bookMoreSeat();
 
@@ -122,6 +123,9 @@ public class Client {
 
                 coordinates.add(new Coordinate(row, column));
             }
+
+            DB.setFreeSeats(DB.getFreeSeats() - seats);
+
             return new BookingMoreSeats(this.getDataOfUser(), coordinates);
         }
         return null;

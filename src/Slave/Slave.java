@@ -11,6 +11,7 @@
 package Slave;
 
 import Bean.Booking;
+import Bean.BookingMoreSeats;
 import Common.Common;
 import Constants.Constants;
 import DB.DB;
@@ -57,7 +58,15 @@ public class Slave implements Runnable{
                         Booking booking = new ObjectMapper().readValue(this.common.readData(this.socket), Booking.class); // booking a seat
 
                         if (booking != null) {
-                            this.common.sendData(this.socket, DB.book(booking.getCoordinates().getRow(), booking.getCoordinates().getColumn(), booking) ? Constants.BOOKING_DONE : Constants.BOOKING_FAIL);
+                            this.common.sendData(this.socket, DB.book(booking) ? Constants.BOOKING_DONE : Constants.BOOKING_FAIL);
+                        } else
+                            this.common.sendData(this.socket, Constants.ERROE_MSG);
+                    }
+
+                    case "3" -> {
+                       BookingMoreSeats bookingMoreSeats = new ObjectMapper().readValue(this.common.readData(this.socket), BookingMoreSeats.class);// booking more seats
+                        if (bookingMoreSeats != null) {
+                            this.common.sendData(this.socket, DB.book(bookingMoreSeats) ? Constants.BOOKING_DONE : Constants.BOOKING_FAIL);
                         } else
                             this.common.sendData(this.socket, Constants.ERROE_MSG);
                     }

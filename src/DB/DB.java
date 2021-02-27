@@ -31,17 +31,27 @@ public class DB {
      * @param column
      * @return
      */
-    public static synchronized boolean book(int row, int column, Booking booking){
-         if (!isBooking(row, column)) {
-             ROOM[row][column] = 'O';
+    public static synchronized boolean book(Booking booking){
+         if (!isBooking(booking.getCoordinates().getRow(), booking.getCoordinates().getColumn())) {
+             ROOM[booking.getCoordinates().getRow()][booking.getCoordinates().getColumn()] = 'O';
              FREE_SEATS--;
              return savaData(booking);
-//             return true;
          }
 
          return false;
     }
 
+
+    public static synchronized boolean book(BookingMoreSeats bookingMoreSeats){
+        bookingMoreSeats.getCoordinates().forEach(b -> {
+            if (!isBooking(b.getRow(), b.getColumn())) {
+                ROOM[b.getRow()][b.getColumn()] = 'O';
+            }
+        });
+
+        return savaData(bookingMoreSeats);
+
+    }
 
     /**
      * function to check booking
@@ -59,8 +69,18 @@ public class DB {
      * @param booking
      * @return boolean vlaue
      */
-    private static boolean savaData(Booking booking){
+    private synchronized static boolean savaData(Booking booking){
         return !BOOKINGS.contains(booking) && BOOKINGS.add(booking);
+    }
+
+
+    /**
+     * function to save bookings and data of users
+     * @param BookingMoreSeats
+     * @return boolean vlaue
+     */
+    private synchronized static boolean savaData(BookingMoreSeats BookingMoreSeats){
+        return !BOOKINGS_MORE.contains(BookingMoreSeats) && BOOKINGS_MORE.add(BookingMoreSeats);
     }
 
 
@@ -68,7 +88,7 @@ public class DB {
      * get room of cienma
      * @return char[][]
      */
-    public static char[][] getROOM() {
+    public synchronized static char[][] getROOM() {
         return ROOM;
     }
 
@@ -76,7 +96,7 @@ public class DB {
     /**
      * set room of cienma
      */
-    public static void setROOM(char[][] room) {
+    public synchronized static void setROOM(char[][] room) {
         ROOM = room;
     }
 
@@ -85,8 +105,12 @@ public class DB {
      * function to calc seats free
      * @return frea seats
      */
-    public static int getFreeSeats() {
+    public synchronized static int getFreeSeats() {
         return FREE_SEATS;
+    }
+
+    public synchronized static void setFreeSeats(int freeSeats) {
+        FREE_SEATS = freeSeats;
     }
 
 
@@ -95,7 +119,7 @@ public class DB {
      * get all bookings
      * @return char[][]
      */
-    public static List<Booking> getBOOKINGS() {
+    public synchronized static List<Booking> getBOOKINGS() {
         return BOOKINGS;
     }
 
