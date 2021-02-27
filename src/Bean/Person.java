@@ -11,9 +11,6 @@
 package Bean;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-
 public class Person {
     private String name;
     private String surname;
