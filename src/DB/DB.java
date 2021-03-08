@@ -23,7 +23,7 @@ public class DB {
 
     public static int SEATS = 15;
     public static int ROW = 10;
-    public static char[][] ROOM = new char[10][SEATS]; // matrix of booking
+    public static char[][] ROOM = new char[ROW][SEATS]; // matrix of booking
     public static final List<Booking> BOOKINGS = new ArrayList<>(); // list of booking
     public static final List<BookingMoreSeats> BOOKINGS_MORE = new ArrayList<>(); // list of booking More seats
     public static int FREE_SEATS = SEATS * ROW;
