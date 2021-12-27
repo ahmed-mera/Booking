@@ -15,7 +15,7 @@ pipeline {
 
     stage('Run') {
       steps {
-        sh 'cd $WORKSPACE/Server; javac Main.java'
+        sh 'cd $WORKSPACE/src; javac Server.Main.java'
       }
     }
 
