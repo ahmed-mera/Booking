@@ -15,7 +15,7 @@ pipeline {
 
     stage('Run') {
       steps {
-        sh 'javac Server.Main'
+        sh 'javac Server/Main'
       }
     }
 
