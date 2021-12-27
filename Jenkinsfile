@@ -15,7 +15,7 @@ pipeline {
 
     stage('Run') {
       steps {
-        sh 'javac Server/Main.java'
+        sh 'cd $WORKSPACE/Booking/; javac Server/Main.java'
       }
     }
 
